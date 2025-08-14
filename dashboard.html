@@ -7,14 +7,13 @@
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
-  <header><h1>📅 Dashboard</h1></header>
   <nav class="navbar">
     <a href="index.html">🏫 Class Setup</a>
-    <a href="dashboard.html">📋 Dashboard</a>
+    <a href="dashboard.html" class="active">📋 Dashboard</a>
     <a href="schedule.html">⏰ Schedule</a>
-    <a href="settings.html">⚙️Settings</a>
+    <a href="settings.html">⚙️ Settings</a>
   </nav>
-
+  <header><h1>📋 Assignments</h1></header>
   <main>
     <form id="add-assignment-form">
       <select id="class-select"></select>
@@ -25,9 +24,10 @@
       <input type="number" id="points" placeholder="Point Value" />
       <button type="submit">Add Assignment</button>
     </form>
+    <div id="gpa-display"></div>
     <section id="assignment-list"></section>
   </main>
   <script src="js/assignments.js"></script>
+  <script src="js/grades.js"></script>
 </body>
 </html>
-
