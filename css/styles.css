@@ -1,1 +1,40 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+  background: #f4f4f4;
+}
+header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+input, select, button {
+  padding: 10px;
+  font-size: 1em;
+}
+.period {
+  padding: 10px;
+  margin: 5px 0;
+  background: #ddd;
+}
+.period.active {
+  background: #ffeb3b;
+  animation: pulse 1s infinite;
+}
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.6; }
+  100% { opacity: 1; }
+}
+.assignment.missing {
+  background: #ffcccc;
+}
+.assignment.upcoming::before {
+  content: "⚠️ ";
+}
 
