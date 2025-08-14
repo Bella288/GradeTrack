@@ -1,1 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <header><h1>📅 Dashboard</h1></header>
+  <main>
+    <form id="add-assignment-form">
+      <select id="class-select"></select>
+      <input type="text" id="assignment-title" placeholder="Title" required />
+      <input type="url" id="assignment-link" placeholder="Link (optional)" />
+      <input type="date" id="due-date" required />
+      <input type="text" id="category" placeholder="Category" />
+      <input type="number" id="points" placeholder="Point Value" />
+      <button type="submit">Add Assignment</button>
+    </form>
+    <section id="assignment-list"></section>
+  </main>
+  <script src="js/assignments.js"></script>
+</body>
+</html>
 
