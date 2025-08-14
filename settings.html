@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Schedule Settings</title>
+  <title>Bell Schedule Settings</title>
+  <link rel="stylesheet" href="settings.css">
 </head>
 <body>
-  <h1>Schedule Settings</h1>
-  <form id="schedule-form">
+  <div class="container">
+    <h1>Bell Schedule Settings</h1>
+
     <label for="weekday-select">Select Weekday:</label>
     <select id="weekday-select">
       <option value="Monday">Monday</option>
@@ -15,11 +17,14 @@
       <option value="Friday">Friday</option>
     </select>
 
-    <div id="schedule-container"></div>
-
-    <button type="button" onclick="addPeriod()">Add Period</button>
-    <button type="submit">Save Schedule</button>
-  </form>
+    <form id="schedule-form">
+      <div id="schedule-container"></div>
+      <div class="buttons">
+        <button type="button" onclick="addPeriod()">➕ Add Period</button>
+        <button type="submit">💾 Save Schedule</button>
+      </div>
+    </form>
+  </div>
 
   <script src="settings.js"></script>
 </body>
