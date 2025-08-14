@@ -1,26 +1,12 @@
-function parseTime(timeStr) {
-  const [h, m] = timeStr.split(':').map(Number);
-  return h * 60 + m;
-}
-
-function checkSchedule() {
-  const now = new Date();
-  const currentTime = now.getHours() * 60 + now.getMinutes();
-  document.querySelectorAll('.period').forEach(period => {
-    const start = parseTime(period.dataset.start);
-    const end = parseTime(period.dataset.end);
-    if (currentTime >= start && currentTime <= end) {
-      period.classList.add('active');
-      const remaining = end - currentTime;
-      period.innerHTML = `${period.textContent.split(' - ')[0]} - ⏳ ${remaining} min left`;
-    } else {
-      period.classList.remove('active');
-    }
-  });
+function getTodaySchedule() {
+  const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  const today = weekdays[new Date().getDay()];
+  const allSchedules = JSON.parse(localStorage.getItem('schedule') || '{}');
+  return allSchedules[today] || [];
 }
 
 function renderSchedule() {
-  const schedule = JSON.parse(localStorage.getItem('schedule') || '[]');
+  const schedule = getTodaySchedule();
   const container = document.getElementById('schedule');
   container.innerHTML = schedule.map(p => `
     <div class="period" data-start="${p.start}" data-end="${p.end}">${p.name}</div>
@@ -28,5 +14,20 @@ function renderSchedule() {
   checkSchedule();
 }
 
-renderSchedule();
+function checkSchedule() {
+  const now = new Date();
+  const currentTime = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
+  const periods = document.querySelectorAll('.period');
+  periods.forEach(p => {
+    const start = p.getAttribute('data-start');
+    const end = p.getAttribute('data-end');
+    if (currentTime >= start && currentTime <= end) {
+      p.classList.add('active');
+    } else {
+      p.classList.remove('active');
+    }
+  });
+}
+
 setInterval(checkSchedule, 60000);
+renderSchedule();
