@@ -22,8 +22,13 @@ function saveClass(data) {
 
 function renderClasses() {
   const classes = JSON.parse(localStorage.getItem('classes') || '[]');
-  list.innerHTML = classes.map(c => `<div>${c.name} - ${c.teacher} (${c.period})</div>`).join('');
+  list.innerHTML = classes.map(c => `
+    <div>
+      <a href="dashboard.html?class=${encodeURIComponent(c.name)}">
+        ${c.name} - ${c.teacher} (${c.period})
+      </a>
+    </div>
+  `).join('');
 }
 
 renderClasses();
-
