@@ -1,7 +1,7 @@
 function getTodaySchedule() {
   const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
   const today = weekdays[new Date().getDay()];
-  const allSchedules = JSON.parse(localStorage.getItem('schedule') || '{}');
+  const allSchedules = JSON.parse(localStorage.getItem('bellSchedule') || '{}');
   return allSchedules[today] || [];
 }
 
