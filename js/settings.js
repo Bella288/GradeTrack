@@ -3,11 +3,11 @@ const form = document.getElementById('schedule-form');
 const weekdaySelect = document.getElementById('weekday-select');
 
 function loadSchedule() {
-  const allSchedules = JSON.parse(localStorage.getItem('schedule') || '{}');
+  const allSchedules = JSON.parse(localStorage.getItem('bellSchedule') || '{}');
   const day = weekdaySelect.value;
   const schedule = allSchedules[day] || [];
   container.innerHTML = '';
-  schedule.forEach((p, i) => {
+  schedule.forEach(p => {
     container.innerHTML += `
       <div class="period-edit">
         <input type="text" value="${p.name}" placeholder="Period Name" />
@@ -18,7 +18,7 @@ function loadSchedule() {
 }
 
 function saveSchedule() {
-  const allSchedules = JSON.parse(localStorage.getItem('schedule') || '{}');
+  const allSchedules = JSON.parse(localStorage.getItem('bellSchedule') || '{}');
   const day = weekdaySelect.value;
   const inputs = container.querySelectorAll('input');
   const schedule = [];
@@ -30,8 +30,8 @@ function saveSchedule() {
     });
   }
   allSchedules[day] = schedule;
-  localStorage.setItem('schedule', JSON.stringify(allSchedules));
-  alert('✅ Schedule saved!');
+  localStorage.setItem('bellSchedule', JSON.stringify(allSchedules));
+  alert('✅ Bell schedule saved for ' + day);
 }
 
 function addPeriod() {
