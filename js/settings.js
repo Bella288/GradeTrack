@@ -1,28 +1,25 @@
+const container = document.getElementById('schedule-container');
 const form = document.getElementById('schedule-form');
-const container = document.getElementById('periods-container');
+const weekdaySelect = document.getElementById('weekday-select');
 
 function loadSchedule() {
-  const schedule = JSON.parse(localStorage.getItem('schedule') || '[]');
+  const allSchedules = JSON.parse(localStorage.getItem('schedule') || '{}');
+  const day = weekdaySelect.value;
+  const schedule = allSchedules[day] || [];
   container.innerHTML = '';
   schedule.forEach((p, i) => {
     container.innerHTML += `
       <div class="period-edit">
-        <input type="text" value="${p.name}" placeholder="Period Name" data-index="${i}" data-field="name" />
-        <input type="time" value="${p.start}" data-index="${i}" data-field="start" />
-        <input type="time" value="${p.end}" data-index="${i}" data-field="end" />
+        <input type="text" value="${p.name}" placeholder="Period Name" />
+        <input type="time" value="${p.start}" />
+        <input type="time" value="${p.end}" />
       </div>`;
   });
 }
 
-function addPeriod() {
-  const schedule = JSON.parse(localStorage.getItem('schedule') || '[]');
-  schedule.push({ name: '', start: '', end: '' });
-  localStorage.setItem('schedule', JSON.stringify(schedule));
-  loadSchedule();
-}
-
-form.addEventListener('submit', e => {
-  e.preventDefault();
+function saveSchedule() {
+  const allSchedules = JSON.parse(localStorage.getItem('schedule') || '{}');
+  const day = weekdaySelect.value;
   const inputs = container.querySelectorAll('input');
   const schedule = [];
   for (let i = 0; i < inputs.length; i += 3) {
@@ -32,8 +29,24 @@ form.addEventListener('submit', e => {
       end: inputs[i + 2].value
     });
   }
-  localStorage.setItem('schedule', JSON.stringify(schedule));
+  allSchedules[day] = schedule;
+  localStorage.setItem('schedule', JSON.stringify(allSchedules));
   alert('✅ Schedule saved!');
+}
+
+function addPeriod() {
+  container.innerHTML += `
+    <div class="period-edit">
+      <input type="text" placeholder="Period Name" />
+      <input type="time" />
+      <input type="time" />
+    </div>`;
+}
+
+form.addEventListener('submit', e => {
+  e.preventDefault();
+  saveSchedule();
 });
 
+weekdaySelect.addEventListener('change', loadSchedule);
 loadSchedule();
