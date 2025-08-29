@@ -279,7 +279,7 @@ function addStyles() {
         
         /* Dyslexia mode styles */
         .dyslexia-mode .class-item {
-            font-family: "OpenDyslexic", "Arial", sans-serif;
+            font-family: "OpenDyslexic", OpenDyslexic, sans-serif;
             letter-spacing: 0.05em;
             line-height: 1.6;
         }
