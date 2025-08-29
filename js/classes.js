@@ -2,11 +2,21 @@
 
 // Wait for DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', function() {
+    initializeClassesPage();
+});
+
+function initializeClassesPage() {
     const form = document.getElementById('add-class-form');
     const list = document.getElementById('class-list');
-    const liveRegion = document.querySelector('[aria-live]') || createLiveRegion();
+    
+    if (!form || !list) {
+        console.error("Required elements not found");
+        return;
+    }
     
     // Create a live region if it doesn't exist
+    const liveRegion = document.querySelector('[aria-live]') || createLiveRegion();
+    
     function createLiveRegion() {
         const region = document.createElement('div');
         region.setAttribute('aria-live', 'polite');
@@ -16,29 +26,29 @@ document.addEventListener('DOMContentLoaded', function() {
         return region;
     }
     
+    // Add styles for the enhanced class list
+    addStyles();
+    
     // Announce changes to screen readers
     function announce(message) {
-        liveRegion.textContent = message;
-        // Clear after a delay to allow repeated announcements
-        setTimeout(() => {
-            liveRegion.textContent = '';
-        }, 1000);
+        if (liveRegion) {
+            liveRegion.textContent = message;
+            // Clear after a delay to allow repeated announcements
+            setTimeout(() => {
+                liveRegion.textContent = '';
+            }, 1000);
+        }
     }
     
     // Validate form inputs
     function validateForm() {
         const className = document.getElementById('class-name').value.trim();
-        const roomNumber = document.getElementById('room-number').value.trim();
-        const teacherName = document.getElementById('teacher-name').value.trim();
-        const period = document.getElementById('period').value.trim();
         
         if (!className) {
             announce('Class name is required');
             document.getElementById('class-name').focus();
             return false;
         }
-        
-        // Additional validation could be added here
         
         return true;
     }
@@ -140,9 +150,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Initialize the page
-    renderClasses();
-    
     // Add keyboard navigation to class items
     document.addEventListener('keydown', function(e) {
         const classItems = document.querySelectorAll('.class-item');
@@ -169,98 +176,113 @@ document.addEventListener('DOMContentLoaded', function() {
             classItems[prevIndex].querySelector('.class-link').focus();
         }
     });
-});
+    
+    // Initialize the page
+    renderClasses();
+}
 
-// Add styles for the enhanced class list (would ideally be in CSS file)
-const style = document.createElement('style');
-style.textContent = `
-    .visually-hidden {
-        position: absolute;
-        width: 1px;
-        height: 1px;
-        padding: 0;
-        margin: -1px;
-        overflow: hidden;
-        clip: rect(0, 0, 0, 0);
-        white-space: nowrap;
-        border: 0;
-    }
+function addStyles() {
+    // Check if styles already added
+    if (document.getElementById('classes-styles')) return;
     
-    .class-item {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 12px;
-        margin: 10px 0;
-        border: 1px solid #ddd;
-        border-radius: 6px;
-        background-color: #f9f9f9;
-    }
-    
-    .class-link {
-        flex: 1;
-        text-decoration: none;
-        color: #333;
-        display: block;
-        padding: 8px;
-        border-radius: 4px;
-    }
-    
-    .class-link:hover, 
-    .class-link:focus {
-        background-color: #eee;
-        outline: 2px solid #0066cc;
-    }
-    
-    .class-name {
-        display: block;
-        font-weight: bold;
-        font-size: 1.1em;
-    }
-    
-    .class-details, 
-    .class-room {
-        display: block;
-        font-size: 0.9em;
-        color: #666;
-        margin-top: 4px;
-    }
-    
-    .delete-class {
-        background: none;
-        border: none;
-        cursor: pointer;
-        padding: 8px;
-        border-radius: 4px;
-        font-size: 1.2em;
-    }
-    
-    .delete-class:hover,
-    .delete-class:focus {
-        background-color: #ffebee;
-        outline: 2px solid #d32f2f;
-    }
-    
-    .form-group {
-        margin-bottom: 15px;
-    }
-    
-    .form-group label {
-        display: block;
-        margin-bottom: 5px;
-        font-weight: bold;
-    }
-    
-    @media (prefers-contrast: high) {
-        .class-item {
-            border: 2px solid #000;
+    const style = document.createElement('style');
+    style.id = 'classes-styles';
+    style.textContent = `
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
         }
         
-        .class-link:focus {
-            outline: 3px solid #000;
-            background-color: #ffff00;
-            color: #000;
+        .class-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            background-color: #f9f9f9;
         }
-    }
-`;
-document.head.appendChild(style);
+        
+        .class-link {
+            flex: 1;
+            text-decoration: none;
+            color: #333;
+            display: block;
+            padding: 8px;
+            border-radius: 4px;
+        }
+        
+        .class-link:hover, 
+        .class-link:focus {
+            background-color: #eee;
+            outline: 2px solid #0066cc;
+        }
+        
+        .class-name {
+            display: block;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        
+        .class-details, 
+        .class-room {
+            display: block;
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 4px;
+        }
+        
+        .delete-class {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 4px;
+            font-size: 1.2em;
+        }
+        
+        .delete-class:hover,
+        .delete-class:focus {
+            background-color: #ffebee;
+            outline: 2px solid #d32f2f;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        @media (prefers-contrast: high) {
+            .class-item {
+                border: 2px solid #000;
+            }
+            
+            .class-link:focus {
+                outline: 3px solid #000;
+                background-color: #ffff00;
+                color: #000;
+            }
+        }
+        
+        /* Dyslexia mode styles */
+        .dyslexia-mode .class-item {
+            font-family: "OpenDyslexic", "Arial", sans-serif;
+            letter-spacing: 0.05em;
+            line-height: 1.6;
+        }
+    `;
+    document.head.appendChild(style);
+}
